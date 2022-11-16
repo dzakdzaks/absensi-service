@@ -32,7 +32,7 @@ class AbsenPlaceRepositoryImpl(
             if (collection.insertOne(absenPlace).wasAcknowledged()) {
                 absenPlace.toResult()
             } else {
-                throw InternalServerException("Create class failed")
+                throw InternalServerException("Create AbsenPlace failed")
             }
         }
     }

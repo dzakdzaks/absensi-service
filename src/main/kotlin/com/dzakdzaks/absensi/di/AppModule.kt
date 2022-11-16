@@ -2,16 +2,15 @@ package com.dzakdzaks.absensi.di
 
 import com.dzakdzaks.absensi.data.absenplace.AbsenPlaceRepository
 import com.dzakdzaks.absensi.data.absenplace.AbsenPlaceRepositoryImpl
+import com.dzakdzaks.absensi.data.absentime.AbsenTimeRepository
+import com.dzakdzaks.absensi.data.absentime.AbsenTimeRepositoryImpl
 import com.dzakdzaks.absensi.data.classs.ClasssRepository
 import com.dzakdzaks.absensi.data.classs.ClasssRepositoryImpl
 import com.dzakdzaks.absensi.data.role.RoleRepository
 import com.dzakdzaks.absensi.data.role.RoleRepositoryImpl
 import com.dzakdzaks.absensi.data.user.UserRepository
 import com.dzakdzaks.absensi.data.user.UserRepositoryImpl
-import com.dzakdzaks.absensi.service.AbsenPlaceService
-import com.dzakdzaks.absensi.service.ClasssService
-import com.dzakdzaks.absensi.service.RoleService
-import com.dzakdzaks.absensi.service.UserService
+import com.dzakdzaks.absensi.service.*
 import com.dzakdzaks.absensi.util.BASE_URL
 import com.dzakdzaks.absensi.util.DB_NAME_ABSENSI
 import org.koin.dsl.module
@@ -27,6 +26,7 @@ val repositoryModule = module {
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<ClasssRepository> { ClasssRepositoryImpl(get()) }
     single<AbsenPlaceRepository> { AbsenPlaceRepositoryImpl(get()) }
+    single<AbsenTimeRepository> { AbsenTimeRepositoryImpl(get()) }
 }
 
 val serviceModule = module {
@@ -34,4 +34,5 @@ val serviceModule = module {
     single { RoleService(get()) }
     single { ClasssService(get(), get(), get()) }
     single { AbsenPlaceService(get()) }
+    single { AbsenTimeService(get(), get()) }
 }
