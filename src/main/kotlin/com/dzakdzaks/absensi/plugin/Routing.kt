@@ -1,5 +1,6 @@
 package com.dzakdzaks.absensi.plugin
 
+import com.dzakdzaks.absensi.routing.absenPlaceRouting
 import com.dzakdzaks.absensi.routing.classRouting
 import com.dzakdzaks.absensi.routing.roleRouting
 import com.dzakdzaks.absensi.routing.authRouting
@@ -16,4 +17,5 @@ fun Application.configureRouting() {
     authRouting()
     roleRouting()
     classRouting()
+    absenPlaceRouting()
 }

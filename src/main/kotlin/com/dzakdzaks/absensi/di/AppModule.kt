@@ -1,11 +1,14 @@
 package com.dzakdzaks.absensi.di
 
+import com.dzakdzaks.absensi.data.absenplace.AbsenPlaceRepository
+import com.dzakdzaks.absensi.data.absenplace.AbsenPlaceRepositoryImpl
 import com.dzakdzaks.absensi.data.classs.ClasssRepository
 import com.dzakdzaks.absensi.data.classs.ClasssRepositoryImpl
 import com.dzakdzaks.absensi.data.role.RoleRepository
 import com.dzakdzaks.absensi.data.role.RoleRepositoryImpl
 import com.dzakdzaks.absensi.data.user.UserRepository
 import com.dzakdzaks.absensi.data.user.UserRepositoryImpl
+import com.dzakdzaks.absensi.service.AbsenPlaceService
 import com.dzakdzaks.absensi.service.ClasssService
 import com.dzakdzaks.absensi.service.RoleService
 import com.dzakdzaks.absensi.service.UserService
@@ -23,10 +26,12 @@ val repositoryModule = module {
     single<RoleRepository> { RoleRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<ClasssRepository> { ClasssRepositoryImpl(get()) }
+    single<AbsenPlaceRepository> { AbsenPlaceRepositoryImpl(get()) }
 }
 
 val serviceModule = module {
     single { UserService(get(), get(), get()) }
     single { RoleService(get()) }
     single { ClasssService(get(), get(), get()) }
+    single { AbsenPlaceService(get()) }
 }
