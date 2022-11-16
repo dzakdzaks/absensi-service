@@ -8,7 +8,7 @@ data class User(
     @BsonId
     val id: Id<User>? = null,
     val username: String,
-    val password: String,
+    var password: String,
     val role: String? = null,
     val classs: String? = null
 ) : Principal

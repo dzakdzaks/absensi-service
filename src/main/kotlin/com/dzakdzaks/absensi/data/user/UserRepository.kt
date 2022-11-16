@@ -1,5 +1,6 @@
 package com.dzakdzaks.absensi.data.user
 
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.dzakdzaks.absensi.data.base.InternalServerException
 import com.dzakdzaks.absensi.data.user.model.User
 import com.dzakdzaks.absensi.util.toResult
@@ -28,6 +29,8 @@ class UserRepositoryImpl(
         return if (isExist.isSuccess) {
             throw BadRequestException("User already exist")
         } else {
+            val encryptedPassword = BCrypt.withDefaults().hashToString(12, user.password.toCharArray())
+            user.password = encryptedPassword
             if (collection.insertOne(user).wasAcknowledged()) {
                 user.toResult()
             } else {

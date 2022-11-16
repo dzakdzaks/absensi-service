@@ -1,5 +1,6 @@
 package com.dzakdzaks.absensi.service
 
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.dzakdzaks.absensi.data.classs.ClasssRepository
 import com.dzakdzaks.absensi.data.classs.model.ClasssResponse
 import com.dzakdzaks.absensi.data.classs.model.toClasssResponse
@@ -45,7 +46,8 @@ class UserService(
         val resulUser = userRepository.getUserByUsername(userLoginRequest.username)
         return resulUser.map {
             if (it.role == "637354fc0b4f6b21487b5836" || it.role == "637355670b4f6b21487b5838") {
-                if (userLoginRequest.password == it.password) {
+                val resultCheckPassword = BCrypt.verifyer().verify(userLoginRequest.password.toCharArray(), it.password)
+                if (resultCheckPassword.verified) {
                     val token = JwtConfig.generateToken(it)
                     it.toUserLoginResponse(
                         token = token,

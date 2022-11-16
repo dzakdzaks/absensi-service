@@ -2,7 +2,6 @@ package com.dzakdzaks.absensi.data.user.model
 
 import com.dzakdzaks.absensi.data.classs.model.ClasssResponse
 import com.dzakdzaks.absensi.data.role.model.RoleResponse
-import com.dzakdzaks.absensi.util.getRandomString
 
 fun User.toUserResponse(roleResponse: RoleResponse?, classsResponse: ClasssResponse? = null): UserResponse =
     UserResponse(
@@ -33,7 +32,7 @@ fun UserRegisterRequest.toUserTeacher(): User =
 fun UserStudentRequest.toUserStudent(): User =
     User(
         username = this.username,
-        password = getRandomString(6),
+        password = "student"/*getRandomString(6)*/,
         role = "63735d72fcb7c9549e89e7e5",
         classs = this.classs
     )
