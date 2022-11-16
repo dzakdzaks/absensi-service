@@ -32,9 +32,18 @@ fun Application.roleRouting() {
                 }
 
                 /** Get All Role */
-                get {
+                get("/all") {
                     call.respond(
                         HttpStatusCode.OK, service.getRoles().toResponse("All role")
+                    )
+                }
+
+                /** Get Role By ID */
+                get("{id}") {
+                    val id = call.parameters["id"]
+                    call.respond(
+                        HttpStatusCode.OK,
+                        service.getRoleById(id).toResponse("Role by id")
                     )
                 }
 

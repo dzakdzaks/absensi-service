@@ -18,7 +18,8 @@ class RoleService(
     suspend fun getRoleByName(name: String): Result<RoleResponse> =
         roleRepository.getRoleByName(name).map { it.toRoleResponse() }
 
-    suspend fun getRoleById(id: String): Result<RoleResponse> {
+    suspend fun getRoleById(id: String?): Result<RoleResponse> {
+        if (id.isNullOrEmpty()) throw BadRequestException("Id not found")
         if (ObjectId.isValid(id).not()) throw BadRequestException("Wrong format id")
         return roleRepository.getRoleById(id).map { it.toRoleResponse() }
     }

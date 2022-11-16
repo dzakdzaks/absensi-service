@@ -32,9 +32,18 @@ fun Application.classRouting() {
                 }
 
                 /** Get All Class */
-                get {
+                get("/all") {
                     call.respond(
                         HttpStatusCode.OK, service.getClasses().toResponse("All class")
+                    )
+                }
+
+                /** Get Class By ID */
+                get("{id}") {
+                    val id = call.parameters["id"]
+                    call.respond(
+                        HttpStatusCode.OK,
+                        service.getClassById(id).toResponse("Class by id")
                     )
                 }
 

@@ -78,20 +78,18 @@ class UserService(
     suspend fun getUserByIdPrincipal(id: String): Result<User> = userRepository.getUserById(id)
 
     suspend fun getUserById(id: String?): Result<UserResponse> {
-        return id?.let {
-            if (it.isEmpty()) throw BadRequestException("Id not found")
-            if (ObjectId.isValid(it).not()) throw BadRequestException("Wrong format id")
-            userRepository.getUserById(id).map { user ->
-                user.toUserResponse(
-                    roleResponse = roleResponse(user.role),
-                    classResponse = classResponse(user.classs)
-                )
-            }
-        } ?: throw BadRequestException("Id not found")
+        if (id.isNullOrEmpty()) throw BadRequestException("Id not found")
+        if (ObjectId.isValid(id).not()) throw BadRequestException("Wrong format id")
+        return userRepository.getUserById(id).map { user ->
+            user.toUserResponse(
+                roleResponse = roleResponse(user.role),
+                classResponse = classResponse(user.classs)
+            )
+        }
     }
 
-    suspend fun getUsers(): Result<List<UserResponse>> =
-        userRepository.getUsers().map {
+    suspend fun getUsers(role: String?, classs: String?): Result<List<UserResponse>> =
+        userRepository.getUsers(role, classs).map {
             it.map { item ->
                 item.toUserResponse(
                     roleResponse = roleResponse(item.role),
@@ -99,5 +97,4 @@ class UserService(
                 )
             }
         }
-
 }

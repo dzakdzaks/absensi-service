@@ -32,9 +32,19 @@ fun Application.absenTimeRouting() {
                 }
 
                 /** Get All Absen Time */
-                get {
+                get("/all") {
+                    val absenPlace = call.request.queryParameters["absenPlace"]
                     call.respond(
-                        HttpStatusCode.OK, service.getAbsenTimes().toResponse("All Absen Time")
+                        HttpStatusCode.OK, service.getAbsenTimes(absenPlace).toResponse("All Absen Time")
+                    )
+                }
+
+                /** Get AbsenTime By ID */
+                get("{id}") {
+                    val id = call.parameters["id"]
+                    call.respond(
+                        HttpStatusCode.OK,
+                        service.getAbsenTimeById(id).toResponse("AbsenTime by id")
                     )
                 }
 

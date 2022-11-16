@@ -37,7 +37,8 @@ class ClasssService(
     suspend fun getClassByName(name: String): Result<ClassResponse> =
         classRepository.getClasssByName(name).map { it.toClasssResponse(userResponse(it.user)) }
 
-    suspend fun getClassById(id: String): Result<ClassResponse> {
+    suspend fun getClassById(id: String?): Result<ClassResponse> {
+        if (id.isNullOrEmpty()) throw BadRequestException("Id not found")
         if (ObjectId.isValid(id).not()) throw BadRequestException("Wrong format id")
         return classRepository.getClasssById(id).map { it.toClasssResponse(userResponse(it.user)) }
     }

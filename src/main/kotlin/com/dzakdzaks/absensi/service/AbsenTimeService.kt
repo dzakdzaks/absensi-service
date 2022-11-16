@@ -26,12 +26,13 @@ class AbsenTimeService(
     suspend fun getAbsenTimeByName(name: String): Result<AbsenTimeResponse> =
         absenTimeRepository.getAbsenTimeByName(name).map { it.toAbsenTimeResponse(absenPlace(it.absenPlace)) }
 
-    suspend fun getAbsenTimeById(id: String): Result<AbsenTimeResponse> {
+    suspend fun getAbsenTimeById(id: String?): Result<AbsenTimeResponse> {
+        if (id.isNullOrEmpty()) throw BadRequestException("Id not found")
         if (ObjectId.isValid(id).not()) throw BadRequestException("Wrong format id")
         return absenTimeRepository.getAbsenTimeById(id).map { it.toAbsenTimeResponse(absenPlace(it.absenPlace)) }
     }
 
-    suspend fun getAbsenTimes(): Result<List<AbsenTimeResponse>> = absenTimeRepository.getAbsenTimes().map {
+    suspend fun getAbsenTimes(absenPlace: String?): Result<List<AbsenTimeResponse>> = absenTimeRepository.getAbsenTimes(absenPlace).map {
         it.map { item -> item.toAbsenTimeResponse(absenPlace(item.absenPlace)) }
     }
 

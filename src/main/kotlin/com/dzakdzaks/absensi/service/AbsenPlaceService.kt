@@ -18,7 +18,8 @@ class AbsenPlaceService(
     suspend fun getAbsenPlaceByName(name: String): Result<AbsenPlaceResponse> =
         absenPlaceRepository.getAbsenPlaceByName(name).map { it.toAbsenPlaceResponse() }
 
-    suspend fun getAbsenPlaceById(id: String): Result<AbsenPlaceResponse> {
+    suspend fun getAbsenPlaceById(id: String?): Result<AbsenPlaceResponse> {
+        if (id.isNullOrEmpty()) throw BadRequestException("Id not found")
         if (ObjectId.isValid(id).not()) throw BadRequestException("Wrong format id")
         return absenPlaceRepository.getAbsenPlaceById(id).map { it.toAbsenPlaceResponse() }
     }

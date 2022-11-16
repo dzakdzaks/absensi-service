@@ -57,10 +57,12 @@ fun Application.authRouting() {
                 }
 
                 /** Get All User */
-                get {
+                get("/all") {
+                    val role = call.request.queryParameters["role"]
+                    val classs = call.request.queryParameters["classs"]
                     call.respond(
                         HttpStatusCode.OK,
-                        service.getUsers().toResponse("All user")
+                        service.getUsers(role, classs).toResponse("All user")
                     )
                 }
 

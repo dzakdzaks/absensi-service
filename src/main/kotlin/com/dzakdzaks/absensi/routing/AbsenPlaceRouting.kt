@@ -32,9 +32,18 @@ fun Application.absenPlaceRouting() {
                 }
 
                 /** Get All Absen Place */
-                get {
+                get("/all") {
                     call.respond(
                         HttpStatusCode.OK, service.getAbsenPlaces().toResponse("All Absen Place")
+                    )
+                }
+
+                /** Get AbsenPlace By ID */
+                get("{id}") {
+                    val id = call.parameters["id"]
+                    call.respond(
+                        HttpStatusCode.OK,
+                        service.getAbsenPlaceById(id).toResponse("AbsenPlace by id")
                     )
                 }
 
