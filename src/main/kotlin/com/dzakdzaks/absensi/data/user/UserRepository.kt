@@ -25,11 +25,12 @@ class UserRepositoryImpl(
     private val collection = coroutineDatabase.getCollection<User>()
 
     override suspend fun createUser(user: User): Result<User> {
+        if (user.username.isNullOrEmpty() || user.password.isNullOrEmpty()) throw BadRequestException("username or password is empty")
         val isExist = getUserByUsername(user.username)
         return if (isExist.isSuccess) {
             throw BadRequestException("User already exist")
         } else {
-            val encryptedPassword = BCrypt.withDefaults().hashToString(12, user.password.toCharArray())
+            val encryptedPassword = BCrypt.withDefaults().hashToString(12, user.password?.toCharArray())
             user.password = encryptedPassword
             if (collection.insertOne(user).wasAcknowledged()) {
                 user.toResult()

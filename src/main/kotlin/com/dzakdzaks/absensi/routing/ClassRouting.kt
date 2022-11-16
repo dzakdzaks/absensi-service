@@ -1,6 +1,6 @@
 package com.dzakdzaks.absensi.routing
 
-import com.dzakdzaks.absensi.data.classs.model.ClasssRequest
+import com.dzakdzaks.absensi.data.classs.model.ClassRequest
 import com.dzakdzaks.absensi.data.classs.model.toClasss
 import com.dzakdzaks.absensi.service.ClasssService
 import com.dzakdzaks.absensi.util.toResponse
@@ -24,7 +24,7 @@ fun Application.classRouting() {
 
                 /** Create Class */
                 post {
-                    val request = call.receive<ClasssRequest>()
+                    val request = call.receive<ClassRequest>()
                     call.respond(
                         HttpStatusCode.Created,
                         service.createClasss(request.toClasss()).toResponse("Class created")

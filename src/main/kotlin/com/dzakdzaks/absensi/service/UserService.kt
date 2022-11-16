@@ -2,7 +2,7 @@ package com.dzakdzaks.absensi.service
 
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.dzakdzaks.absensi.data.classs.ClasssRepository
-import com.dzakdzaks.absensi.data.classs.model.ClasssResponse
+import com.dzakdzaks.absensi.data.classs.model.ClassResponse
 import com.dzakdzaks.absensi.data.classs.model.toClasssResponse
 import com.dzakdzaks.absensi.data.role.RoleRepository
 import com.dzakdzaks.absensi.data.role.model.RoleResponse
@@ -23,7 +23,7 @@ class UserService(
         roleRepository.getRoleById(idNonNull).map { it.toRoleResponse() }.getOrNull()
     }
 
-    private suspend fun classResponse(id: String?): ClasssResponse? = id?.let { idNonNull ->
+    private suspend fun classResponse(id: String?): ClassResponse? = id?.let { idNonNull ->
         classRepository.getClasssById(idNonNull).map { it.toClasssResponse() }.getOrNull()
     }
 
@@ -35,7 +35,7 @@ class UserService(
             it.toUserLoginResponse(
                 token = token,
                 roleResponse = roleResponse(it.role),
-                classsResponse = classResponse(it.classs)
+                classResponse = classResponse(it.classs)
             )
         }
     }
@@ -45,14 +45,14 @@ class UserService(
     ): Result<UserLoginResponse> {
         val resulUser = userRepository.getUserByUsername(userLoginRequest.username)
         return resulUser.map {
-            if (it.role == "637354fc0b4f6b21487b5836" || it.role == "637355670b4f6b21487b5838") {
+            if (it.role == "6374e0435447b54d1f0054c1" || it.role == "6374e0a05447b54d1f0054c2") {
                 val resultCheckPassword = BCrypt.verifyer().verify(userLoginRequest.password.toCharArray(), it.password)
                 if (resultCheckPassword.verified) {
                     val token = JwtConfig.generateToken(it)
                     it.toUserLoginResponse(
                         token = token,
                         roleResponse = roleResponse(it.role),
-                        classsResponse = classResponse(it.classs)
+                        classResponse = classResponse(it.classs)
                     )
                 } else {
                     throw BadRequestException("Wrong password")
@@ -69,7 +69,7 @@ class UserService(
         return userRepository.createUser(user).map {
             it.toUserResponse(
                 roleResponse = roleResponse(it.role),
-                classsResponse = classResponse(it.classs)
+                classResponse = classResponse(it.classs)
             )
         }
     }
@@ -84,7 +84,7 @@ class UserService(
             userRepository.getUserById(id).map { user ->
                 user.toUserResponse(
                     roleResponse = roleResponse(user.role),
-                    classsResponse = classResponse(user.classs)
+                    classResponse = classResponse(user.classs)
                 )
             }
         } ?: throw BadRequestException("Id not found")
@@ -95,7 +95,7 @@ class UserService(
             it.map { item ->
                 item.toUserResponse(
                     roleResponse = roleResponse(item.role),
-                    classsResponse = classResponse(item.classs)
+                    classResponse = classResponse(item.classs)
                 )
             }
         }

@@ -28,5 +28,5 @@ val repositoryModule = module {
 val serviceModule = module {
     single { UserService(get(), get(), get()) }
     single { RoleService(get()) }
-    single { ClasssService(get()) }
+    single { ClasssService(get(), get(), get()) }
 }

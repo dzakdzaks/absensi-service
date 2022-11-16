@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserStudentRequest(
-    val username: String,
+    val name: String,
     val classs: String
 )

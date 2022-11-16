@@ -6,5 +6,8 @@ import org.litote.kmongo.Id
 data class Classs(
     @BsonId
     val id: Id<Classs>? = null,
-    val name: String,
+    val name: String?,
+    val user: String?,
+    val createdAt: String?,
+    val updatedAt: String?,
 )

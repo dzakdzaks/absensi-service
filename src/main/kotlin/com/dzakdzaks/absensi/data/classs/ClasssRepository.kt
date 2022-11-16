@@ -24,6 +24,7 @@ class ClasssRepositoryImpl(
     private val collection = coroutineDatabase.getCollection<Classs>()
 
     override suspend fun createClasss(classs: Classs): Result<Classs> {
+        if (classs.name.isNullOrEmpty()) throw BadRequestException("Name is empty")
         val isClassExist = getClasssByName(classs.name)
         return if (isClassExist.isSuccess) {
             throw BadRequestException("Class already exist")

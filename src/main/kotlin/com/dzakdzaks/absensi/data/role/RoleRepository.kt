@@ -24,6 +24,7 @@ class RoleRepositoryImpl(
     private val collection = coroutineDatabase.getCollection<Role>()
 
     override suspend fun createRole(role: Role): Result<Role> {
+        if (role.name.isNullOrEmpty()) throw BadRequestException("Name is empty")
         val isExist = getRoleByName(role.name)
         return if (isExist.isSuccess) {
             throw BadRequestException("Role already exist")
